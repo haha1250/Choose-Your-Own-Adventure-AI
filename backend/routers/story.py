@@ -74,7 +74,7 @@ def generate_story_task(job_id: str, theme: str, session_id: str):
 
             job.story_id = story.id
             job.status = "completed"
-            job.completed_job = datetime.now()
+            job.completed_at = datetime.now()
             db.commit()
         except Exception as e:
             job.status = "failed"
@@ -87,7 +87,7 @@ def generate_story_task(job_id: str, theme: str, session_id: str):
 
 @router.get("/{story_id}/complete", response_model=CompleteStoryResponse)
 def get_complete_story(story_id: int, db: Session = Depends(get_db)):
-    story = db.query(Story).filter(story_id == story.id).first()
+    story = db.query(Story).filter(Story.id == story_id).first()
     if not story:
         raise HTTPException(status_code=404, detail="Story not found")
 
